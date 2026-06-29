@@ -253,3 +253,24 @@ math {
 
 .badge-teorico { background-color: #e8f5e9; color: #2e7d32; }
 .badge-dissipado { background-color: #ffebee; color: #c62828; }
+
+/* REGRAS RESPONSIVAS ADICIONADAS PARA ALINHAMENTO DO CONTEÚDO NO MOBILE */
+@media (max-width: 768px) {
+    .item-grandeza {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px 0;
+    }
+
+    .label-grandeza {
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .valor-resultado-blocado {
+        width: 100%;
+        justify-content: flex-start;
+        overflow-x: auto;
+    }
+}
