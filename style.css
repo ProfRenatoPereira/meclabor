@@ -1,0 +1,270 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.5;
+    padding: 2vw;
+}
+
+header {
+    background: linear-gradient(135deg, #005f73, #0a9396);
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    font-size: clamp(20px, 2.5vw, 32px);
+}
+
+.container {
+    max-width: 96vw;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.control-group {
+    flex: 1 1 18vw;
+    min-width: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.control-group label {
+    font-weight: 600;
+    font-size: clamp(12px, 1.1vw, 14px);
+    color: #495057;
+}
+
+.control-group input, .control-group select {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: clamp(13px, 1.1vw, 15px);
+    background-color: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.control-group input:focus, .control-group select:focus {
+    border-color: #0a9396;
+}
+
+.btn-primary {
+    background-color: #005f73;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: clamp(13px, 1.1vw, 15px);
+}
+
+.btn-primary:hover {
+    background-color: #0a9396;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th, td {
+    padding: 8px 4px;
+    border: 1px solid #dee2e6;
+    font-size: clamp(11px, 1vw, 14px);
+}
+
+th {
+    background-color: #f8f9fa;
+    color: #495057;
+    font-weight: bold;
+}
+
+td input {
+    width: 100%;
+    padding: 4px;
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+    text-align: center;
+    font-size: clamp(11px, 1vw, 14px);
+}
+
+.btn-success {
+    background-color: #2b9348;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: clamp(14px, 1.2vw, 16px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-success:hover {
+    background-color: #007f5f;
+}
+
+.results-section {
+    background: #fff;
+    font-size: 2.5vw;
+    padding: 2px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.results-section h2 {
+    font-size: clamp(16px, 1.6vw, 22px);
+    color: #1d3557;
+    padding-bottom: 5px;
+}
+.math-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    margin-top: 15px;
+    font-size: 1.2vw;
+}
+
+.vector-block-wrapper {
+    width: 100%;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.vector-block-header {
+    background-color: #f8f9fa;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.vector-block-header h3 {
+    font-size: clamp(13px, 1.2vw, 16px);
+    color: #495057;
+}
+
+.btn-toggle-bloco {
+    background: none;
+    border: none;
+    color: #005f73;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: clamp(11px, 1vw, 14px);
+}
+
+.vector-block-content {
+    padding: 15px 20px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* MODIFICADO: Organiza o nome e a equação na vertical à esquerda */
+.item-grandeza {
+    display: flex;
+    flex-direction: column; /* Coloca a equação abaixo do nome */
+    align-items: flex-start; /* Alinha ambos na margem esquerda */
+    width: 100%;
+    padding: 8px 0;
+    border-bottom: 1px dashed #f1f3f5;
+    box-sizing: border-box;
+    gap: 6px; /* Espaço entre o nome e a equação */
+}
+
+.item-grandeza:last-child {
+    border-bottom: none;
+}
+
+/* MODIFICADO: Expande a largura do rótulo para ocupar toda a linha */
+.label-grandeza {
+    font-weight: 600;
+    color: #495057;
+    width: 100%;
+    max-width: 100%;
+    font-size: clamp(12px, 1.1vw, 15px);
+    text-align: left;
+}
+
+/* MODIFICADO: Alinha o bloco matemático para iniciar na margem esquerda */
+.valor-resultado-blocado {
+    font-size: clamp(11px, 1.2vw, 15px);
+    white-space: nowrap !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start; /* Alinha a fórmula matemática à esquerda */
+    width: 100%;
+}
+
+math {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.badge-teorico, .badge-dissipado {
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 11px;
+    margin-left: 8px;
+    display: inline-block;
+}
+
+.badge-teorico { background-color: #e8f5e9; color: #2e7d32; }
+.badge-dissipado { background-color: #ffebee; color: #c62828; }
+
+/* REGRAS RESPONSIVAS ADICIONADAS PARA ALINHAMENTO DO CONTEÚDO NO MOBILE */
+@media (max-width: 768px) {
+    .item-grandeza {
+        padding: 12px 0;
+    }
+
+    .valor-resultado-blocado {
+        overflow-x: auto; /* Permite rolagem horizontal em telas pequenas para equações muito longas */
+    }
+}

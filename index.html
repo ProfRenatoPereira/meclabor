@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratório de Física Vetorial 3D</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cloudflare.com"></script>
+    <style>
+        /* Força os itens gerados pelo JS a quebrarem a linha e alinharem à esquerda */
+        .math-grid div[style*="display: flex"], 
+        .math-grid > div > div {
+            display: flex !important;
+            flex-direction: column !important; /* Coloca a equação embaixo do nome */
+            align-items: flex-start !important; /* Alinha na margem esquerda */
+            text-align: left !important;
+            width: 100% !important;
+            margin-bottom: 12px !important; /* Espaçamento entre os blocos */
+        }
+        /* Garante que os textos e fórmulas fiquem totalmente alinhados à esquerda */
+        .math-grid div[style*="display: flex"] > *, 
+        .math-grid > div > div > * {
+            text-align: left !important;
+            margin-left: 0 !important;
+            margin-right: auto !important;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Simulador de Cinemática e Dinâmica Tridimensional</h1>
+    </header>
+
+    <main class="container">
+        <section class="controls">
+            <div class="control-group">
+                <label for="campos-pos">Posições (5-10):</label>
+                <input type="number" id="campos-pos" min="5" max="10" value="5">
+            </div>
+            <div class="control-group">
+                <label for="campos-temp">Tempo (5-10):</label>
+                <input type="number" id="campos-temp" min="5" max="10" value="5">
+            </div>
+            <div class="control-group">
+                <label for="angulo-theta">Ângulo θ (Azimute °):</label>
+                <input type="number" id="angulo-theta" value="45" min="-360" max="360">
+            </div>
+            <div class="control-group">
+                <label for="angulo-phi">Ângulo φ (Elevação °):</label>
+                <input type="number" id="angulo-phi" value="30" min="-360" max="360">
+            </div>
+            <div class="control-group">
+                <label for="vel-inicial">Velocidade Inicial v₀:</label>
+                <input type="number" id="vel-inicial" value="0" step="any">
+            </div>
+            <div class="control-group">
+                <label for="unidade-vel">Unidade de v₀:</label>
+                <select id="unidade-vel">
+                    <option value="ms" selected>m/s</option>
+                    <option value="kmh">km/h</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="massa">Massa (kg):</label>
+                <input type="number" id="massa" step="0.1" value="5">
+            </div>
+            <div class="control-group">
+                <label for="trajetoria">Trajetória:</label>
+                <select id="trajetoria">
+                    <option value="horizontal">Horizontal</option>
+                    <option value="vertical">Vertical</option>
+                    <option value="inclinada" selected>Inclinada</option>
+                    <option value="parabolica">Parabólica</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="unidade-espaco">Unidade de Posição:</label>
+                <select id="unidade-espaco">
+                    <option value="m" selected>Metros (m)</option>
+                    <option value="km">Quilômetros (km)</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="unidade-tempo">Unidade de Tempo:</label>
+                <select id="unidade-tempo">
+                    <option value="s" selected>Segundos (s)</option>
+                    <option value="min">Minutos (min)</option>
+                    <option value="h">Horas (h)</option>
+                    <option value="d">Dias (d)</option>
+                    <option value="ano">Anos (ano)</option>
+                </select>
+            </div>
+            <button id="btn-gerar" class="btn-primary" style="width: 100%; margin-top: 10px;">Gerar Estrutura da Tabela Tridimensional</button>
+        </section>
+
+        <section class="table-container" id="section-tabela" style="display: none;">
+            <table id="dados-table">
+                <thead>
+                    <tr id="table-header"></tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </section>
+
+        <div class="action-container" id="container-calcular" style="display: none; margin: 15px 0; text-align: center;">
+            <button id="btn-calcular" class="btn-success">Calcular Resultados do Experimento</button>
+        </div>
+
+        <div id="painel-resultados" style="display: none; width: 95vw;">
+            <div style="display: flex; justify-content:left; gap: 10px; margin-bottom: 15px; width: 95vw;">
+                <button id="btnPdf" class="btn-primary" style="background: #8e44ad; padding: 10px 20px; border: none; border-radius: 4px; color: white; cursor: pointer; font-weight: bold;">Exportar PDF</button>
+                <button id="btnTexto" class="btn-primary" style="background: #d35400; padding: 10px 20px; border: none; border-radius: 4px; color: white; cursor: pointer; font-weight: bold;">Exportar Relatório TXT</button>
+            </div>
+
+            <section class="results-section">
+                <div style="display: flex; justify-content: space-between; align-items: left; border-bottom: 2px solid #dee2e6; margin-bottom: 10px;">
+                    <h2>Resultados Vetoriais (î, ĵ, k̂)</h2>
+                    <div style="display: flex; gap: 5px;">
+                        <button type="button" class="btn-primary" style="padding: 5px 10px; font-size: 12px; background: #2b2b2b;" onclick="alternarTodosBlocos('output-vetor', true)">Expandir Tudo</button>
+                        <button type="button" class="btn-primary" style="padding: 5px 10px; font-size: 12px; background: #6c757d;" onclick="alternarTodosBlocos('output-vetor', false)">Ocultar Tudo</button>
+                    </div>
+                </div>
+                <div id="output-vetor" class="math-grid"></div>
+            </section>
+            <section class="results-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #dee2e6; margin-bottom: 10px;">
+                    <h2>Resultados em Módulos Escalares</h2>
+                    <div style="display: flex; gap: 5px;">
+                        <button type="button" class="btn-primary" style="padding: 5px 10px; font-size: 12px; background: #2b2b2b;" onclick="alternarTodosBlocos('output-modulo', true)">Expandir Tudo</button>
+                        <button type="button" class="btn-primary" style="padding: 5px 10px; font-size: 12px; background: #6c757d;" onclick="alternarTodosBlocos('output-modulo', false)">Ocultar Tudo</button>
+                    </div>
+                </div>
+                <div id="output-modulo" class="math-grid"></div>
+            </section>
+
+            <section class="results-section">
+                <h2>Equações do Movimento Parametrizadas e Extrapolações</h2>
+                <div id="output-equacoes" class="math-grid"></div>
+                
+                <div class="charts-container" style="display: flex; flex-wrap: wrap; gap: 2vw; margin-top: 2vw; width: 80vw;">
+                    <div style="flex: 1 1 48vw; background: #fff; padding: 1vw; border-radius: 6px; border: 1px solid #dee2e6;">
+                        <h4 style="font-size: clamp(12px, 1.2vw, 16px); margin-bottom: 0.5vw; color: #005f73; text-align: center;">Gráfico de Espaço Espacial Projetado S(t)</h4>
+                        <div id="svg-posicao-container" style="width: 100%; height: 180px; background: #fafafa; border-radius: 4px;"></div>
+                    </div>
+                    <div style="flex: 1 1 48vw; background: #fff; padding: 1vw; border-radius: 6px; border: 1px solid #dee2e6;">
+                        <h4 style="font-size: clamp(12px, 1.2vw, 16px); margin-bottom: 0.5vw; color: #2a9d8f; text-align: center;">Gráfico de Velocidade Vetorial v(t)</h4>
+                        <div id="svg-velocidade-container" style="width: 100%; height: 180px; background: #fafafa; border-radius: 4px;"></div>
+                    </div>
+                </div>
+
+                <div style="flex: 1 1 80vw; background: #fff; padding: 1.5vw; border-radius: 8px; border: 1px solid #dee2e6; margin-top: 2.5vw; width: 80vw; box-sizing: border-box;">
+                    <h4 style="font-size: clamp(13px, 1.3vw, 17px); margin-bottom: 1vw; color: #d90429; text-align: center; font-weight: bold;">Simulação Perspectiva Isométrica 3D em Tempo Real</h4>
+                    <div id="canvas-animacao-container" style="width: 100%; height: 300px; background: #1a1a1a; border-radius: 6px; position: relative; border: 2px solid #2d2d2d; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); overflow: hidden;">
+                        <button id="btn-play" style="position: absolute; top: 15px; left: 15px; background: #27ae60; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: clamp(11px, 1.1vw, 14px); box-shadow: 0 4px 6px rgba(0,0,0,0.3); transition: background 0.2s; z-index: 10;">▶ Iniciar Simulação Espacial</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
